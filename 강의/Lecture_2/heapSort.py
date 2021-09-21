@@ -1,21 +1,21 @@
 def heapSort(a, n):
-    for i in range(n, 1, -1):
-        heapify(a, i)
-        # print('히프화', a, '히프크기', n)
-        a[1], a[i] = a[i], a[1]
-        # print('교환', a, i-1)
-        # heapSort(a, n-1)
+    for i in range(n//2, 0, -1):
+        heapify(a, i, n)
+    for i in range(n-1, 0, -1):
+        a[1], a[i+1] = a[i+1], a[1]
+        heapify(a, 1, i)
 
-def heapify(a, n):
-    # 히프 구조로 변환
-    b = list(a)
-    b.sort()
-    for i in range(n, 0, -1):
-        j = a.index(b[i])
-        while j//2 > 0:
-            if a[j//2] < a[j]:
-                a[j//2], a[j] = a[j], a[j//2]
-            j //= 2
+def heapify(a, h, m):
+    v, j = a[h], 2*h
+    while j <= m:
+        if j < m and a[j] < a[j+1]:
+            j += 1
+        if v >= a[j]:
+            break
+        else:
+            a[j//2] = a[j]
+        j *= 2
+    a[j//2] = v
 
 def checkSort(a, n):
     isSorted = True
@@ -37,8 +37,6 @@ a = []
 a.append(-1)
 for i in range(N):
     a.append(random.randint(1, N))
-# a = [-1, 6, 2, 8, 1, 3, 9, 4, 5, 10, 7]
-# N = 10
 start_time = time.time()
 heapSort(a, N)
 end_time = time.time() - start_time
